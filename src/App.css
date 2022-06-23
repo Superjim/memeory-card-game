@@ -10,6 +10,11 @@
   align-items: center;
   border-radius: 1rem;
   text-transform: capitalize;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.card:hover {
+  cursor: pointer;
 }
 
 .normal {
@@ -38,10 +43,12 @@
 
 .fighting {
   background-color: #c03028;
+  color: white;
 }
 
 .poison {
   background-color: #a040a0;
+  color: white;
 }
 
 .ground {
@@ -66,6 +73,7 @@
 
 .ghost {
   background-color: #705898;
+  color: white;
 }
 
 .dark {
@@ -74,6 +82,7 @@
 
 .dragon {
   background-color: #7038f8;
+  color: white;
 }
 
 .steel {

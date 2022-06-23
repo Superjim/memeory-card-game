@@ -7,12 +7,18 @@ function App() {
   //array to store pokemons
   const [difficulty, setDifficulty] = useState(9);
   const [pokemon, setPokemon] = useState([]);
+  const [randomPokemon, setRandomPokemon] = useState([]);
+  const [clicked, setClicked] = useState([]);
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [gameover, setGameover] = useState(false);
 
-  //api to get data of pokemon stored in difficulty
+  //api that gets data of 151 pokemon from pokeapi
+  //index, name, picture and type are stored in an array
   async function getPokemon() {
     let newPokemon = [];
 
-    for (let i = 1; i <= difficulty; i++) {
+    for (let i = 1; i <= 151; i++) {
       const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
       try {
         const res = await axios.get(url);
@@ -29,36 +35,75 @@ function App() {
     setPokemon(newPokemon);
   }
 
-  //start game on page load
+  //get api on page load
   useEffect(() => {
     getPokemon();
   }, []);
 
-  return (
-    <div className="App">
-      <h1>Memory Game</h1>
-      <p>
-        Get points by clicking on a Pokemon, but don't click on one more than
-        once!
-      </p>
-      <input
-        id="difficultyInput"
-        type="range"
-        min="2"
-        max="151"
-        value={difficulty}
-        onChange={(e) => setDifficulty(e.target.value)}
-      ></input>
-      <p>Difficulty: {difficulty} Pokemon</p>
-      <button onClick={getPokemon}>New Game</button>
+  //start new game
+  function startNewGame() {
+    const shuffled = pokemon.sort(() => 0.5 - Math.random());
+    let selected = shuffled.slice(0, difficulty);
+    setRandomPokemon(selected);
+  }
 
-      <div className="card-container">
-        {pokemon.map((pokemon) => (
-          <Card key={pokemon.id} pokemon={pokemon} type={pokemon.type} />
-        ))}
+  //shuffle pokemon
+  function shufflePokemon() {
+    const shuffled = randomPokemon.sort(() => 0.5 - Math.random());
+    setRandomPokemon(shuffled);
+  }
+
+  //handle check
+  function handleCheck(pokemon) {
+    if (clicked.includes(pokemon)) {
+      console.log("fail");
+      setGameover(true);
+      if (highScore < score) {
+        setHighScore(score);
+      }
+    } else {
+      console.log(pokemon);
+      setScore(score + 1);
+      setClicked([...clicked, pokemon]);
+      shufflePokemon();
+    }
+  }
+
+  if (!gameover)
+    return (
+      <div className="App">
+        <h1>Memory Game</h1>
+
+        <p>
+          Get points by clicking on a Pokemon, but don't click on one more than
+          once!
+        </p>
+
+        <input
+          id="difficultyInput"
+          type="range"
+          min="2"
+          max="151"
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+        ></input>
+
+        <p>Difficulty: {difficulty} Pokemon</p>
+        <button onClick={startNewGame}>New Game</button>
+        <p>High Score: {highScore}</p>
+        <p>Current Score: {score} </p>
+        <div className="card-container">
+          {randomPokemon.map((pokemon) => (
+            <Card
+              key={pokemon.index}
+              pokemon={pokemon}
+              type={pokemon.type}
+              handleCheck={handleCheck}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
 }
 
 export default App;
