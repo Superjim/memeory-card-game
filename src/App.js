@@ -104,7 +104,7 @@ function App() {
     );
   if (gameover)
     return (
-      <div className="App">
+      <div className="gameover">
         <h1>Game Over</h1>
         <div className="card-container">
           <p>You clicked:</p>

@@ -23,6 +23,15 @@
   gap: 1rem;
 }
 
+.gameover {
+  display: flex;
+  flex-direction: row;
+}
+
+.gameover * {
+  border: 1px solid black;
+}
+
 .normal {
   background-color: #a8a878;
 }
