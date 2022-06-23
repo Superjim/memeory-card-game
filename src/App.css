@@ -17,6 +17,12 @@
   cursor: pointer;
 }
 
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
 .normal {
   background-color: #a8a878;
 }
@@ -91,10 +97,4 @@
 
 .fairy {
   background-color: #f0b6bc;
-}
-
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
 }

@@ -56,13 +56,11 @@ function App() {
   //handle check
   function handleCheck(pokemon) {
     if (clicked.includes(pokemon)) {
-      console.log("fail");
       setGameover(true);
       if (highScore < score) {
         setHighScore(score);
       }
     } else {
-      console.log(pokemon);
       setScore(score + 1);
       setClicked([...clicked, pokemon]);
       shufflePokemon();
@@ -101,6 +99,38 @@ function App() {
               handleCheck={handleCheck}
             />
           ))}
+        </div>
+      </div>
+    );
+  if (gameover)
+    return (
+      <div className="App">
+        <h1>Game Over</h1>
+        <div className="card-container">
+          <p>You clicked:</p>
+          <div>
+            {clicked.map((pokemon) => (
+              <Card
+                key={pokemon.index}
+                pokemon={pokemon}
+                type={pokemon.type}
+                handleCheck={handleCheck}
+              />
+            ))}
+          </div>
+          <p>You forgot:</p>
+          <div>
+            {randomPokemon
+              .filter((x) => !clicked.includes(x))
+              .map((pokemon) => (
+                <Card
+                  key={pokemon.index}
+                  pokemon={pokemon}
+                  type={pokemon.type}
+                  handleCheck={handleCheck}
+                />
+              ))}
+          </div>
         </div>
       </div>
     );
