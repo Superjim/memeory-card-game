@@ -2,6 +2,9 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./components/Card";
+import StartGame from "./components/StartGame";
+import Score from "./components/Score";
+import Gameover from "./components/Gameover";
 
 function App() {
   //array to store pokemons
@@ -11,7 +14,7 @@ function App() {
   const [clicked, setClicked] = useState([]);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [gameover, setGameover] = useState(false);
+  const [gamestate, setGamestate] = useState(0);
 
   //api that gets data of 151 pokemon from pokeapi
   //index, name, picture and type are stored in an array
@@ -45,6 +48,9 @@ function App() {
     const shuffled = pokemon.sort(() => 0.5 - Math.random());
     let selected = shuffled.slice(0, difficulty);
     setRandomPokemon(selected);
+    setClicked([]);
+    setScore(0);
+    setGamestate(1);
   }
 
   //shuffle pokemon
@@ -56,7 +62,7 @@ function App() {
   //handle check
   function handleCheck(pokemon) {
     if (clicked.includes(pokemon)) {
-      setGameover(true);
+      setGamestate(2);
       if (highScore < score) {
         setHighScore(score);
       }
@@ -67,29 +73,22 @@ function App() {
     }
   }
 
-  if (!gameover)
+  if (gamestate === 0)
     return (
       <div className="App">
-        <h1>Memory Game</h1>
+        <StartGame
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          startNewGame={startNewGame}
+          highScore={highScore}
+        />
+      </div>
+    );
+  if (gamestate === 1)
+    return (
+      <>
+        <Score score={score} highScore={highScore} />
 
-        <p>
-          Get points by clicking on a Pokemon, but don't click on one more than
-          once!
-        </p>
-
-        <input
-          id="difficultyInput"
-          type="range"
-          min="2"
-          max="151"
-          value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
-        ></input>
-
-        <p>Difficulty: {difficulty} Pokemon</p>
-        <button onClick={startNewGame}>New Game</button>
-        <p>High Score: {highScore}</p>
-        <p>Current Score: {score} </p>
         <div className="card-container">
           {randomPokemon.map((pokemon) => (
             <Card
@@ -100,39 +99,35 @@ function App() {
             />
           ))}
         </div>
-      </div>
+      </>
     );
-  if (gameover)
+  if (gamestate === 2)
     return (
-      <div className="gameover">
-        <h1>Game Over</h1>
-        <div className="card-container">
-          <p>You clicked:</p>
-          <div>
-            {clicked.map((pokemon) => (
-              <Card
-                key={pokemon.index}
-                pokemon={pokemon}
-                type={pokemon.type}
-                handleCheck={handleCheck}
-              />
-            ))}
-          </div>
-          <p>You forgot:</p>
-          <div>
-            {randomPokemon
-              .filter((x) => !clicked.includes(x))
-              .map((pokemon) => (
-                <Card
-                  key={pokemon.index}
-                  pokemon={pokemon}
-                  type={pokemon.type}
-                  handleCheck={handleCheck}
-                />
-              ))}
-          </div>
-        </div>
-      </div>
+      <Gameover
+        title={"Game Over"}
+        clicked={clicked}
+        randomPokemon={randomPokemon}
+        score={score}
+        setScore={setScore}
+        highScore={highScore}
+        startNewGame={startNewGame}
+        difficulty={difficulty}
+        setDifficulty={setDifficulty}
+      />
+    );
+  if (gamestate === 3)
+    return (
+      <Gameover
+        title={"You Win!"}
+        clicked={clicked}
+        randomPokemon={randomPokemon}
+        score={score}
+        setScore={setScore}
+        highScore={highScore}
+        startNewGame={startNewGame}
+        difficulty={difficulty}
+        setDifficulty={setDifficulty}
+      />
     );
 }
 

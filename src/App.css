@@ -1,6 +1,31 @@
-.body {
-  width: 100vw;
+body {
+  background-image: url("https://assets.pokemon.com//assets/cms2/img/misc/virtual-backgrounds/masters/forest.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.App,
+.start-game,
+.gameover {
   align-text: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-game,
+.score-card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+button {
+  font-size: 1.5rem;
+  padding: 0.2rem;
 }
 
 .card {
@@ -11,6 +36,8 @@
   border-radius: 1rem;
   text-transform: capitalize;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  height: 149px;
+  width: 96px;
 }
 
 .card:hover {
@@ -18,18 +45,39 @@
 }
 
 .card-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
-.gameover {
-  display: flex;
-  flex-direction: row;
+.instructions {
+  box-shadow: none;
 }
 
-.gameover * {
-  border: 1px solid black;
+.gameover {
+  flex-direction: column;
+  background: rgba(105, 105, 105, 0.7);
+}
+
+.gameover > p,
+h1 {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.gameover-container {
+  flex-direction: column;
+  display: flex;
+}
+
+.score-card {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2rem;
 }
 
 .normal {
