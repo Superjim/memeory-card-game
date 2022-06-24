@@ -13,6 +13,7 @@ function Gameover({
   startNewGame,
   difficulty,
   setDifficulty,
+  win,
 }) {
   return (
     <div className="gameover">
@@ -29,24 +30,29 @@ function Gameover({
           />
         ))}
       </div>
-      <p>You forgot:</p>
-      <div className="card-container">
-        {randomPokemon
-          .filter((x) => !clicked.includes(x))
-          .map((pokemon) => (
-            <Card
-              key={pokemon.index}
-              pokemon={pokemon}
-              type={pokemon.type}
-              handleCheck={handleCheck}
-            />
-          ))}
-      </div>
+      {!win && (
+        <div className="gameover">
+          <p>You forgot:</p>
+          <div className="card-container">
+            {randomPokemon
+              .filter((x) => !clicked.includes(x))
+              .map((pokemon) => (
+                <Card
+                  key={pokemon.index}
+                  pokemon={pokemon}
+                  type={pokemon.type}
+                  handleCheck={handleCheck}
+                />
+              ))}
+          </div>
+        </div>
+      )}
       <StartGame
-          difficulty={difficulty}
-          setDifficulty={setDifficulty}
-          startNewGame={startNewGame}
-          highScore={highScore}/>
+        difficulty={difficulty}
+        setDifficulty={setDifficulty}
+        startNewGame={startNewGame}
+        highScore={highScore}
+      />
     </div>
   );
 }

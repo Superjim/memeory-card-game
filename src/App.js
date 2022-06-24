@@ -15,6 +15,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [gamestate, setGamestate] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   //api that gets data of 151 pokemon from pokeapi
   //index, name, picture and type are stored in an array
@@ -36,6 +37,7 @@ function App() {
       }
     }
     setPokemon(newPokemon);
+    setLoading(false);
   }
 
   //get api on page load
@@ -66,6 +68,13 @@ function App() {
       if (highScore < score) {
         setHighScore(score);
       }
+    } else if (score + 1 === difficulty) {
+      setScore(score + 1);
+      setClicked([...clicked, pokemon]);
+      setGamestate(3);
+      if (highScore < score) {
+        setHighScore(score + 1);
+      }
     } else {
       setScore(score + 1);
       setClicked([...clicked, pokemon]);
@@ -81,14 +90,16 @@ function App() {
           setDifficulty={setDifficulty}
           startNewGame={startNewGame}
           highScore={highScore}
+          loading={loading}
         />
       </div>
     );
   if (gamestate === 1)
     return (
       <>
-        <Score score={score} highScore={highScore} />
-
+        <div className="score-card-game">
+          <Score score={score} highScore={highScore} />
+        </div>
         <div className="card-container">
           {randomPokemon.map((pokemon) => (
             <Card
@@ -113,6 +124,7 @@ function App() {
         startNewGame={startNewGame}
         difficulty={difficulty}
         setDifficulty={setDifficulty}
+        win={false}
       />
     );
   if (gamestate === 3)
@@ -127,6 +139,7 @@ function App() {
         startNewGame={startNewGame}
         difficulty={difficulty}
         setDifficulty={setDifficulty}
+        win={true}
       />
     );
 }

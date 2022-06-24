@@ -1,6 +1,12 @@
 import React from "react";
 
-function StartGame({ difficulty, setDifficulty, startNewGame, highScore }) {
+function StartGame({
+  difficulty,
+  setDifficulty,
+  startNewGame,
+  highScore,
+  loading,
+}) {
   return (
     <div className="start-game">
       {highScore === 0 && (
@@ -23,7 +29,8 @@ function StartGame({ difficulty, setDifficulty, startNewGame, highScore }) {
       ></input>
 
       <p>Difficulty: {difficulty} Pokemon</p>
-      <button onClick={startNewGame}>New Game</button>
+      {loading && <button disabled>Loading...</button>}
+      {!loading && <button onClick={startNewGame}>New Game</button>}
     </div>
   );
 }
